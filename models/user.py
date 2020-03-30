@@ -5,10 +5,10 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String
 
 
-Base = declarative_base()
+Base = declarative_base(BaseModel)
 
 
-class User(BaseModel, Base):
+class User(Base):
     """This is the class for user
     Attributes:
         email: email address
