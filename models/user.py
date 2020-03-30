@@ -1,14 +1,11 @@
 #!/usr/bin/python3
 """This is the user class"""
 from models.base_model import BaseModel
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.ext.declarative import BaseModel
 from sqlalchemy import Column, String
 
 
-Base = declarative_base(BaseModel)
-
-
-class User(Base):
+class User(BaseModel, Base):
     """This is the class for user
     Attributes:
         email: email address
