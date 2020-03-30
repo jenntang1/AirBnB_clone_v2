@@ -7,6 +7,7 @@ from sqlalchemy import Column, String
 
 Base = declarative_base()
 
+
 class User(BaseModel, Base):
     """This is the class for user
     Attributes:
