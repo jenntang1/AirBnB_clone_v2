@@ -6,15 +6,19 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, Integer, DateTime
 from datetime import datetime
 
+
 Base = declarative_base()
+
 
 class BaseModel:
     """This class will defines all common attributes/methods
     for other classes
     """
-    id = Column("id", String(60), unique=True, primary_key=True, nullable=False)
-    created_at = Column("created_at", DateTime, default=datetime.utcnow(), nullable=False)
-    updated_at = Column("updated_at", DateTime, default=datetime.utcnow(), nullable=False)
+    id = Column("id", String(60), primary_key=True, nullable=False)
+    created_at = Column("created_at", DateTime,
+                        default=datetime.utcnow(), nullable=False)
+    updated_at = Column("updated_at", DateTime,
+                        default=datetime.utcnow(), nullable=False)
 
     def __init__(self, *args, **kwargs):
         """Instantiation of base model class
@@ -35,7 +39,6 @@ class BaseModel:
         else:
             self.id = str(uuid.uuid4())
             self.created_at = self.updated_at = datetime.now()
-            models.storage.new(self)
 
     def __str__(self):
         """returns a string
@@ -54,7 +57,7 @@ class BaseModel:
         """updates the public instance attribute updated_at to current
         """
         self.updated_at = datetime.now()
- 
+        models.storage.new(self)
         models.storage.save()
 
     def to_dict(self):
@@ -71,9 +74,9 @@ class BaseModel:
         except KeyError:
             pass
         return my_dict
-    
+
     def delete(self):
-        """ 
-        Delete A instance of a class 
+        """
+        Delete A instance of a class
         """
         models.storage.delete(self)

@@ -1,0 +1,92 @@
+#!/usr/bin/python3
+"""
+To be filled
+
+#"Amenity": , "Place": Place, "Review": Review}
+
+"""
+import os
+import sqlalchemy
+from sqlalchemy.orm import sessionmaker, scoped_session
+from models.base_model import Base
+from sqlalchemy import (create_engine)
+from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
+
+class DBStorage():
+    """
+    Database Storage engine
+    """
+    
+    __classes = {"User": User, "State": State, "City": City} 
+    __engine = None
+    __session = None
+
+    def __init__(self):
+        """
+        Constructor
+        """
+        user = os.getenv('HBNB_MYSQL_USER')
+        password = os.getenv('HBNB_MYSQL_PWD')
+        host = os.getenv('HBNB_MYSQL_HOST')
+        database = os.getenv('HBNB_MYSQL_DB') 
+        
+        self.__engine = create_engine("mysql+mysqldb://{}:{}@{}/{}".format(
+            user, password, host, database), pool_pre_ping=True)
+        if (os.getenv('HBNB_DEV') == 'test'):
+            Base.metadata.drop_all(self.__engine)
+    
+    def all(self, cls=None):
+        """
+        Method
+        """
+        return_dict = {}
+        if cls == None:
+            for entry in self.__classes:
+                results = self.__session.query(self.__classes[entry]).all()
+                for result in results:
+                    key = result.__class__.__name__ + '.' + result.id
+                    result.__dict__ = result.to_dict()
+                    return_dict[key] = result
+        else:
+            results = self.__session.query(cls).all()
+            for result in results:
+                key = result.__class__.__name__ + '.' + result.id
+                result.__dict__ = result.to_dict()
+                return_dict[key] = result
+
+        return return_dict
+    
+    def new(self, obj):
+        """
+        Info
+        """
+        self.__session.add(obj)
+        
+    def save(self):
+        """
+        Info
+        """
+        self.__session.commit()
+    
+    def delete(self, obj=None):
+        """
+        Info
+        """
+        if obj is not None:
+            self.__session.delete(obj, synchronize_session=False)
+    
+    def reload(self):
+        """
+        Info
+        """
+        Base.metadata.create_all(self.__engine)
+        session_factory = sessionmaker(self.__engine, expire_on_commit=False)
+        Session = scoped_session(session_factory)
+        self.__session = Session()
+        
