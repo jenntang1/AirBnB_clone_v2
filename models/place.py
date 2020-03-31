@@ -8,11 +8,11 @@ from sqlalchemy.orm import relationship
 
 metadata = Base.metadata
 
-user = Table('place_amenity', metadata,
-             Column('place_id', String(60), primary_key=True,
-                    ForeignKey('places.id'), nullable=False),
-             Column('amenity_id', String(60), primary_key=True,
-                    ForeignKey('amenities.id'), nullable=False))
+place_amenity = Table('place_amenity', metadata,
+                      Column('place_id', String(60), primary_key=True,
+                             ForeignKey('places.id'), nullable=False),
+                      Column('amenity_id', String(60), primary_key=True,
+                             ForeignKey('amenities.id'), nullable=False))
 
 
 class Place(BaseModel, Base):
@@ -33,21 +33,33 @@ class Place(BaseModel, Base):
     __tablename__ = 'places'
 
     if (os.getenv('HBNB_TYPE_STORAGE') != 'db'):
-        name = ''
 
         @property
-        def amenities(self):
+        def reviews(self):
             """
-            Info
+            Returns list of review instances
             """
             new_list = []
             all_entries = models.storage.all()
             for key, value in all_entries.items():
                 split_key = entry.split('.')
-                if split_key[1] == State.id:
+                if split_key[1] == Place.id:
                     new_list.append(value)
-
             return new_list
+
+        @property
+        def amenities(self):
+            """
+            Returns list of amenity instances
+            """
+            new_list = []
+            all_entries = models.storage.all()
+            for key, value in all_entries.items():
+                split_key = entry.split('.')
+                if split_key[1] == Place.id:
+                    new_list.append(value)
+            return new_list
+
     else:
         city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
         user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
@@ -60,3 +72,7 @@ class Place(BaseModel, Base):
         latitude = Column(Float, nullable=True)
         longitude = Column(Float, nullable=True)
         amenity_ids = []
+
+        amenities = relationship("Amenity", cascade='all, delete', backref='state'
+                                 secondary='place_amenity', viewonly=False)
+        reviews = relationship("Review", cascade='all, delete', backref='place')
