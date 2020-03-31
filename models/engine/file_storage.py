@@ -28,8 +28,8 @@ class FileStorage:
         if cls:
             my_dict = {}
             for key, value in self.__objects.items():
-                if cls is value:
-                    my_dict[key] = value.to_dict()
+                if value.__class__ == cls:
+                    my_dict[key] = value
             return my_dict
         return self.__objects
 
@@ -65,5 +65,9 @@ class FileStorage:
     def delete(self, obj=None):
         """deletes obj from __objects if it's inside
         """
-        if obj in self.__objects:
-            del obj
+        if obj is not None:
+            key = obj.__class__.__name__ + "." + obj.id
+            try:
+                del self.__objects[key]
+            except KeyError:
+                pass
