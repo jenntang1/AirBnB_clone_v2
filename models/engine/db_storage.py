@@ -18,12 +18,13 @@ from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
 
+
 class DBStorage():
     """
     Database Storage engine
     """
-    
-    __classes = {"User": User, "State": State, "City": City} 
+
+    __classes = {"User": User, "State": State, "City": City}
     __engine = None
     __session = None
 
@@ -34,19 +35,19 @@ class DBStorage():
         user = os.getenv('HBNB_MYSQL_USER')
         password = os.getenv('HBNB_MYSQL_PWD')
         host = os.getenv('HBNB_MYSQL_HOST')
-        database = os.getenv('HBNB_MYSQL_DB') 
-        
+        database = os.getenv('HBNB_MYSQL_DB')
+
         self.__engine = create_engine("mysql+mysqldb://{}:{}@{}/{}".format(
             user, password, host, database), pool_pre_ping=True)
         if (os.getenv('HBNB_DEV') == 'test'):
             Base.metadata.drop_all(self.__engine)
-    
+
     def all(self, cls=None):
         """
         Method
         """
         return_dict = {}
-        if cls == None:
+        if cls is None:
             for entry in self.__classes:
                 results = self.__session.query(self.__classes[entry]).all()
                 for result in results:
@@ -59,28 +60,27 @@ class DBStorage():
                 key = result.__class__.__name__ + '.' + result.id
                 result.__dict__ = result.to_dict()
                 return_dict[key] = result
-
         return return_dict
-    
+
     def new(self, obj):
         """
         Info
         """
         self.__session.add(obj)
-        
+
     def save(self):
         """
         Info
         """
         self.__session.commit()
-    
+
     def delete(self, obj=None):
         """
         Info
         """
         if obj is not None:
             self.__session.delete(obj, synchronize_session=False)
-    
+
     def reload(self):
         """
         Info
@@ -89,4 +89,3 @@ class DBStorage():
         session_factory = sessionmaker(self.__engine, expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()
-        
