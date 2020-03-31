@@ -11,7 +11,7 @@ class State(BaseModel):
         name: input name
     """
     __tablename__ = 'states'
-    name = Column("name", string(128), nullable=False)
+    name = Column("name", String(128), nullable=False)
     cities = relationship("City", cascade='all, delete', backref='state')
     
     @property
