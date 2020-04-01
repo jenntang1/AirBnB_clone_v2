@@ -52,13 +52,11 @@ class DBStorage():
                 results = self.__session.query(self.__classes[entry]).all()
                 for result in results:
                     key = result.__class__.__name__ + '.' + result.id
-                    result.__dict__ = result.to_dict()
                     return_dict[key] = result
         else:
             results = self.__session.query(cls).all()
             for result in results:
                 key = result.__class__.__name__ + '.' + result.id
-                result.__dict__ = result.to_dict()
                 return_dict[key] = result
         return return_dict
 
