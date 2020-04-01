@@ -24,7 +24,7 @@ class DBStorage():
     Database Storage engine
     """
 
-    __classes = {"User": User, "State": State, "City": City}
+    __classes = {"User": User, "State": State, "City": City, "Place": Place}
     __engine = None
     __session = None
 
