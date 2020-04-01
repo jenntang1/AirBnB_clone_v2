@@ -11,12 +11,12 @@ metadata = Base.metadata
 
 place_amenity = Table('place_amenity', metadata,
                       Column('place_id', String(60),
-                             ForeignKey('places.id'),
                              primary_key=True,
+                             ForeignKey('places.id'),
                              nullable=False),
                       Column('amenity_id', String(60),
-                             ForeignKey('amenities.id'),
                              primary_key=True,
+                             ForeignKey('amenities.id'),
                              nullable=False))
 
 
@@ -83,8 +83,7 @@ class Place(BaseModel, Base):
         longitude = Column(Float, nullable=True)
         amenity_ids = []
 
-        amenities = relationship("Amenity", cascade='all, delete',
-                                 backref='state', secondary='place_amenity',
+        amenities = relationship("Amenity", secondary='place_amenity',
                                  viewonly=False)
         reviews = relationship("Review", cascade='all, delete',
                                backref='place')

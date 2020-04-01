@@ -5,13 +5,6 @@ from sqlalchemy import Column, String, Integer, ForeignKey, Table
 from sqlalchemy.orm import relationship
 
 
-association_table = Table('association', Base.metadata,
-                          Column('amenities_name', Integer,
-                                 ForeignKey('amenities.name')),
-                          Column('amenities_id', Integer,
-                                 ForeignKey('Place.amenities.id')))
-
-
 class Amenity(BaseModel, Base):
     """This is the class for Amenity
     Attributes:
