@@ -26,7 +26,7 @@ class DBStorage():
 
     __classes = {"User": User, "State": State,
                  "City": City, "Place": Place,
-                 "Review": Review}
+                 "Review": Review, "Amenity": Amenity}
     __engine = None
     __session = None
 
