@@ -4,7 +4,7 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Integer, Float, ForeignKey, Table
 # import os
 from sqlalchemy.orm import relationship
-
+from models.review import Review
 
 # metadata = Base.metadata
 
@@ -36,20 +36,20 @@ class Place(BaseModel, Base):
     """
     __tablename__ = 'places'
 
-#   if (os.getenv('HBNB_TYPE_STORAGE') != 'db'):
+    if (os.getenv('HBNB_TYPE_STORAGE') != 'db'):
 
-#        @property
-#        def reviews(self):
-#            """
-#            Returns list of review instances
-#            """
-#            new_list = []
-#            all_entries = models.storage.all()
-#            for key, value in all_entries.items():
-#                split_key = entry.split('.')
-#                if split_key[1] == Place.id:
-#                    new_list.append(value)
-#            return new_list
+        @property
+        def reviews(self):
+            """
+            Returns list of review instances
+            """
+            new_list = []
+            all_entries = models.storage.all()
+            for key, value in all_entries.items():
+                split_key = entry.split('.')
+                if split_key[1] == Place.id:
+                    new_list.append(value)
+            return new_list
 
 #        @property
 #        def amenities(self):
@@ -80,5 +80,5 @@ class Place(BaseModel, Base):
 #        amenities = relationship("Amenity", cascade='all, delete',
 #                                 backref='state', secondary='place_amenity',
 #                                 viewonly=False)
-#        reviews = relationship("Review", cascade='all, delete',
-#                               backref='place')
+    reviews = relationship("Review", cascade='all, delete',
+                           backref='place')
