@@ -6,17 +6,18 @@ import os
 from sqlalchemy.orm import relationship
 from models.review import Review
 
-# metadata = Base.metadata
 
-# place_amenity = Table('place_amenity', metadata,
-#                      Column('place_id', String(60),
-#                             ForeignKey('places.id'),
-#                             primary_key=True,
-#                             nullable=False),
-#                      Column('amenity_id', String(60),
-#                             ForeignKey('amenities.id'),
-#                             primary_key=True,
-#                             nullable=False))
+metadata = Base.metadata
+
+place_amenity = Table('place_amenity', metadata,
+                      Column('place_id', String(60),
+                             ForeignKey('places.id'),
+                             primary_key=True,
+                             nullable=False),
+                      Column('amenity_id', String(60),
+                             ForeignKey('amenities.id'),
+                             primary_key=True,
+                             nullable=False))
 
 
 class Place(BaseModel, Base):
@@ -51,18 +52,23 @@ class Place(BaseModel, Base):
                     new_list.append(value)
             return new_list
 
-#        @property
-#        def amenities(self):
-#            """
-#            Returns list of amenity instances
-#            """
-#            new_list = []
-#            all_entries = models.storage.all()
-#            for key, value in all_entries.items():
-#                split_key = entry.split('.')
-#                if split_key[1] == Place.id:
-#                    new_list.append(value)
-#            return new_list
+        @property
+        def amenities(self):
+            """
+            Returns list of amenity instances
+            """
+            return amenity_ids
+
+        @amenities.setter
+        def amenities(self, value):
+            """
+            Append Amenity.id to amenity_ids
+            """
+            all_entries = models.storage.all()
+            for key, value in all_entries.items():
+                split_key = entry.split('.')
+                if split_key[1] == Amenity.id:
+                    amenity_ids.append(value)
 
     else:
         city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
@@ -77,8 +83,8 @@ class Place(BaseModel, Base):
         longitude = Column(Float, nullable=True)
         amenity_ids = []
 
-#        amenities = relationship("Amenity", cascade='all, delete',
-#                                 backref='state', secondary='place_amenity',
-#                                 viewonly=False)
+        amenities = relationship("Amenity", cascade='all, delete',
+                                 backref='state', secondary='place_amenity',
+                                 viewonly=False)
         reviews = relationship("Review", cascade='all, delete',
                                backref='place')
