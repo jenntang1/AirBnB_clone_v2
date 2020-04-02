@@ -20,6 +20,10 @@ class TestBaseModel(unittest.TestCase):
     def teardown(cls):
         """at the end of the test this will tear it down"""
         del cls.base
+        
+    def setUp(self):
+        """ attempt """
+        base = BaseModel()
 
     def tearDown(self):
         """teardown"""
@@ -51,11 +55,14 @@ class TestBaseModel(unittest.TestCase):
     def test_init_BaseModel(self):
         """test if the base is an type BaseModel"""
         self.assertTrue(isinstance(self.base, BaseModel))
-
+    
+    @unittest.skipIf(os.getenv("HBNB_TYPE_STORAGE") == 'db',
+                     "BaseModel has no table")
     def test_save_BaesModel(self):
         """test if the save works"""
-        self.base.save()
-        self.assertNotEqual(self.base.created_at, self.base.updated_at)
+        base = BaseModel()
+        base.save()
+        self.assertNotEqual(base.created_at, base.updated_at)
 
     def test_to_dict_BaseModel(self):
         """test if dictionary works"""

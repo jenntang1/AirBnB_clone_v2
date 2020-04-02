@@ -61,7 +61,10 @@ class TestUser(unittest.TestCase):
         self.assertEqual(type(self.user.password), str)
         self.assertEqual(type(self.user.first_name), str)
         self.assertEqual(type(self.user.first_name), str)
-
+        
+    
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
+                     "Incorrect storage type")
     def test_save_User(self):
         """test if the save works"""
         self.user.save()
