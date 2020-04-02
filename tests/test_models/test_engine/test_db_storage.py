@@ -12,6 +12,8 @@ from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
 from models.engine.db_storage import DBStorage
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
 
 class TestDBStorage(unittest.TestCase):
@@ -25,57 +27,21 @@ class TestDBStorage(unittest.TestCase):
 
     @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') != 'db',
                      "Incorrect storage type")
-    def test_all(self):
-        """tests if all works in DB Storage"""
-        storage = DBStorage()
-        obj = storage.all()
-        self.assertIsNotNone(obj)
-        self.assertEqual(type(obj), dict)
-        self.assertIs(obj, storage._DBStorage__classes)
-
-'''    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') != 'db',
-                     "Incorrect storage type")
-    def test_new(self):
-        """test when new is created"""
-        storage = DBStorage()
-        obj = storage.all()
-        user = User()
-        user.id = 123455
-        user.name = "Kevin"
-        storage.new(user)
-        key = user.__class__.__name__ + "." + str(user.id)
-        self.assertIsNotNone(obj[key])
+    def setUp(self):
+        """connect to test database"""
+        self.engine = create_engine('mysql+mysqldb://root: \
+                                    hbnb_test@localhost/hbnb_test_db',
+                                    pool_pre_ping=True)
+        self.session = Session(engine)
+        Base.metadata.create_all(self.engine)
+        self.session.add(self.user)
+        self.session.commit()
 
     @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') != 'db',
                      "Incorrect storage type")
-    def test_reload_dbstorage(self):
-        """
-        tests reload
-        """
-        self.storage.save()
-        Root = os.path.dirname(os.path.abspath("console.py"))
-        path = os.path.join(Root, "file.json")
-        with open(path, 'r') as f:
-            lines = f.readlines()
-        try:
-            os.remove(path)
-        except:
-            pass
-        self.storage.save()
-        with open(path, 'r') as f:
-            lines2 = f.readlines()
-        self.assertEqual(lines, lines2)
-        try:
-            os.remove(path)
-        except:
-            pass
-        with open(path, "w") as f:
-            f.write("{}")
-        with open(path, "r") as r:
-            for line in r:
-                self.assertEqual(line, "{}")
-        self.assertIs(self.storage.reload(), None)
-'''
+    def tearDown(self):
+        Base.metadata.drop_all(self.engine)
+
 
 if __name__ == "__main__":
     unittest.main()
