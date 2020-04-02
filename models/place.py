@@ -60,7 +60,7 @@ class Place(BaseModel, Base):
             return amenity_ids
 
         @amenities.setter
-        def amenities(self, value):
+        def amenities(self, val):
             """
             Append Amenity.id to amenity_ids
             """
