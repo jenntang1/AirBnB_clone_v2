@@ -2,18 +2,10 @@
 """test for db storage"""
 import unittest
 import pep8
-import json
 import os
-from models.base_model import BaseModel
-from models.user import User
-from models.state import State
-from models.city import City
-from models.amenity import Amenity
-from models.place import Place
-from models.review import Review
-from models.engine.db_storage import DBStorage
-from sqlalchemy import create_engine
+''' from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+'''
 
 
 class TestDBStorage(unittest.TestCase):
@@ -23,9 +15,10 @@ class TestDBStorage(unittest.TestCase):
         """Tests pep8 style"""
         style = pep8.StyleGuide(quiet=True)
         p = style.check_files(['models/engine/db_storage.py'])
-        self.assertEqual(p.total_errors, 0, "fix pep8")
+        self.assertEqual(p.total_errors, 0, "Found code \
+                         style errors (and warnings).")
 
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') != 'db',
+'''    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') != 'db',
                      "Incorrect storage type")
     def setUp(self):
         """connect to test database"""
@@ -41,7 +34,7 @@ class TestDBStorage(unittest.TestCase):
                      "Incorrect storage type")
     def tearDown(self):
         Base.metadata.drop_all(self.engine)
-
+'''
 
 if __name__ == "__main__":
     unittest.main()
