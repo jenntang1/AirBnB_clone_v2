@@ -23,7 +23,7 @@ class TestDBStorage(unittest.TestCase):
         p = style.check_files(['models/engine/db_storage.py'])
         self.assertEqual(p.total_errors, 0, "fix pep8")
 
-    @unittest.skipIf(os.gentenv('HBNB_TYPE_STORAGE') != 'db',
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') != 'db',
                      "Incorrect storage type")
     def test_all(self):
         """tests if all works in DB Storage"""
@@ -33,7 +33,7 @@ class TestDBStorage(unittest.TestCase):
         self.assertEqual(type(obj), dict)
         self.assertIs(obj, storage._DBStorage__objects)
 
-    @unittest.skipIf(os.gentenv('HBNB_TYPE_STORAGE') != 'db',
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') != 'db',
                      "Incorrect storage type")
     def test_new(self):
         """test when new is created"""
@@ -46,7 +46,7 @@ class TestDBStorage(unittest.TestCase):
         key = user.__class__.__name__ + "." + str(user.id)
         self.assertIsNotNone(obj[key])
 
-    @unittest.skipIf(os.gentenv('HBNB_TYPE_STORAGE') != 'db',
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') != 'db',
                      "Incorrect storage type")
     def test_reload_dbstorage(self):
         """
