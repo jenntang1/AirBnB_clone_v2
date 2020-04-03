@@ -11,40 +11,48 @@ This is the console /command interpreter for the Holberton Airbnb clone project.
 * Place
 * Review
 
-### Commands:
-* create - create an object
-* show - show an object (based on id)
-* destroy - destroy an object
-* all - show all objects, of one type or all types
-* quit/EOF - quit the console
-* help - see descriptions of commands
+#### Commands
+    * create - Creates an instance based on given class
+
+    * destroy - Destroys an object based on class and UUID
+
+    * show - Shows an object based on class and UUID
+
+    * all - Shows all objects the program has access to, 
+            or all objects of a given class
+
+    * update - Updates existing attributes an object based 
+               on class name and UUID
+
+    * quit - Exits the program (EOF will as well)
 
 To start, navigate to the project folder and enter `./console.py` in the shell.
 
-#### Create
+### Command Examples:
+##### Create
 `create <class name>`
 Ex:
 `create BaseModel`
 
-#### Show
+##### Show
 `show <class name> <object id>`
 Ex:
 `show User my_id`
 
-#### Destroy
+##### Destroy
 `destroy <class name> <object id>`
 Ex:
 `destroy Place my_place_id`
 
-#### All
+##### All
 `all` or `all <class name>`
 Ex:
 `all` or `all State`
 
-#### Quit
+##### Quit
 `quit` or `EOF`
 
-#### Help
+##### Help
 `help` or `help <command>`
 Ex:
 `help` or `help quit`
