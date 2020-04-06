@@ -2,7 +2,7 @@
 """ This Fabric script generates a .tgz archive """
 
 
-from fabric import *
+from fabric.api import *
 from fabric.contrib import files
 
 
