@@ -2,7 +2,7 @@
 """ This Fabric script generates a .tgz archive """
 
 
-from fabric.api import *
+from fabric.api import sudo, path, run, cd, get, local
 from fabric.contrib import files
 
 
@@ -15,7 +15,7 @@ def do_pack():
         upon success, returns archive path
         upon fail, returns None
     """
-    archive = sudo("mkdir -p versions; tar -cvzf \
+    archive = run("mkdir -p versions; tar -cvzf \
                    versions/web_static_$(date \
                    +%Y%m%d%H%M%S).tgz web_static")
 
