@@ -17,6 +17,6 @@ sudo ln -sf /data/web_static/current /data/web_static/releases/test/
 sudo chown -R ubuntu: /data/
 
 var="location /hbnb_static/ {\n root /data/web_static/current/;\n}\n"
-sudo sed -i "50i$var" /etc/nginx/sites-available/default
+sudo sed -i "55i$var" /etc/nginx/sites-available/default
 
 sudo service nginx restart
