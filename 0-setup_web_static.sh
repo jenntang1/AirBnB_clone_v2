@@ -16,7 +16,7 @@ sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
 
 sudo chown -R ubuntu: /data/
 
-var="location /hbnb_static/ {\n alias /data/web_static/current/hbnb_static/;\n}\n"
+var="location /hbnb_static {\n alias /data/web_static/current/;\n}\n"
 sudo sed -i "43i$var" /etc/nginx/sites-available/default
 
 sudo service nginx restart
