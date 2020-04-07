@@ -2,11 +2,9 @@
 """ This Fabric script generates a .tgz archive """
 
 
-from fabric.api import sudo, path, run, cd, get, local
+from fabric.api import *
 from fabric.contrib import files
-
-
-path = "tar -cvzf versions/web_static_$(date +%Y%m%d%H%M%S).tgz web_static"
+from os import stat
 
 
 def do_pack():
@@ -15,10 +13,17 @@ def do_pack():
         upon success, returns archive path
         upon fail, returns None
     """
-    archive = run("mkdir -p versions; tar -cvzf \
-                   versions/web_static_$(date \
-                   +%Y%m%d%H%M%S).tgz web_static")
+    timestamp = "+%Y%m%d%H%M%S"
+    tgzname = "web_static_{}.tgz".format(timestamp)
+
+    versions = run("mkdir -p versions")
+
+    archive = local("tar -cvzf versions/{} web_static".format(path))
 
     if archive.succeeded:
-        return path
+        size = stat(tgzname).st_size
+        print("web_static packed: versions/{} -> {}Bytes".format(
+                                                                 tgzname,
+                                                                 size))
+        return tgzname
     return None
