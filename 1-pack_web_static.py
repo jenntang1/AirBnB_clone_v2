@@ -5,6 +5,7 @@
 from fabric.api import run, local
 from fabric.contrib import files
 from os.path import getsize
+import time
 
 
 def do_pack():
@@ -13,7 +14,7 @@ def do_pack():
         upon success, returns archive path
         upon fail, returns None
     """
-    timestamp = "+%Y%m%d%H%M%S"
+    timestamp = time.strftime("%Y%m%d%H%M%S")
 
     folder = run("mkdir -p versions")
 
