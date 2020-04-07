@@ -21,7 +21,7 @@ def do_pack():
     archive = local("tar -cvzf versions/{} web_static".format(path))
 
     if archive.succeeded:
-        size = stat(tgzname).st_size
+        size = path.getsize(tgzname)
         print("web_static packed: versions/{} -> {}Bytes".format(
                                                                  tgzname,
                                                                  size))
