@@ -14,9 +14,10 @@ def do_pack():
         upon fail, returns None
     """
     timestamp = "+%Y%m%d%H%M%S"
-    path = "versions/web_static_{}.tgz".format(timestamp)
 
     folder = run("mkdir -p versions")
+
+    path = "versions/web_static_{}.tgz".format(timestamp)
 
     archive = local("tar -cvzf {} web_static".format(path))
 
