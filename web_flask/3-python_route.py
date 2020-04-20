@@ -2,7 +2,7 @@
 """ Starts a Flask Web Application """
 
 
-from flask import Flask, escape
+from flask import Flask
 app = Flask(__name__)
 
 
@@ -36,11 +36,12 @@ def show_c(text):
         “C ” followed by the value of the
         text variable (replace _ with space)
     """
-    return "C {}".format(str(text))
+    return "C {}".format(text.replace("_", " "))
 
 
-@app.route("/python/(<text>)", strict_slashes=False)
-def show_python(text="is cool"):
+@app.route("/python/", defaults={"text": "is_cool"}, strict_slashes=False)
+@app.route("/python/<text>", strict_slashes=False)
+def show_python(text):
     """ Method returns a custom text after
     web app starts listening on 0.0.0.0:5000
     Arg:
@@ -49,7 +50,7 @@ def show_python(text="is cool"):
         “Python ” followed by the value of the
         text variable (replace _ with space)
     """
-    return "Python {}".format(escape(text))
+    return "Python {}".format(text.replace("_", " "))
 
 
 if __name__ == "__main__":
