@@ -2,13 +2,8 @@
 """ Starts a Flask Web Application """
 
 
-from os import path
 from flask import Flask, render_template
-
-
-project_root = path.dirname(path.dirname(path.join(__file__)))
-template_path = path.join(project_root, "templates/")
-app = Flask(__name__, template_folder=template_path)
+app = Flask(__name__)
 
 
 @app.route("/", strict_slashes=False)
@@ -58,7 +53,7 @@ def show_python(text):
     return "Python {}".format(text.replace("_", " "))
 
 
-@app.route("/number/<int:n>", strict_slashes=False)
+@app.route("/number/<n>", strict_slashes=False)
 def show_number(n):
     """ Method returns a custom text after
     web app starts listening on 0.0.0.0:5000
