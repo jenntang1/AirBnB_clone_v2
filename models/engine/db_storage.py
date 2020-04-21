@@ -1,9 +1,6 @@
 #!/usr/bin/python3
 """
-To be filled
-
-#"Amenity": , "Place": Place, "Review": Review}
-
+Database Storage
 """
 import os
 import sqlalchemy
@@ -89,3 +86,9 @@ class DBStorage():
         session_factory = sessionmaker(self.__engine, expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()
+
+    def close(self):
+        """
+        Public method that calls the remove method
+        """
+        self.__session.remove()
