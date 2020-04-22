@@ -4,6 +4,8 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Integer, ForeignKey
 import os
 from sqlalchemy.orm import relationship
+import models
+from models.city import City
 
 
 class State(BaseModel, Base):
@@ -21,10 +23,9 @@ class State(BaseModel, Base):
             Getter that returns cities
             """
             new_list = []
-            all_entries = models.storage.all()
+            all_entries = models.storage.all(City)
             for key, value in all_entries.items():
-                split_key = entry.split('.')
-                if split_key[1] == self.id:
+                if value.state_id == self.id:
                     new_list.append(value)
 
             return new_list
