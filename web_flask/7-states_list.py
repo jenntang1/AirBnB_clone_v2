@@ -21,7 +21,7 @@ def html_states(data):
     Return:
         an HTML page that States and their ids
     """
-    return render_template("7-states_list.html", data=State)
+    return render_template("7-states_list.html", data=data)
 
 
 @app.teardown_appcontext
