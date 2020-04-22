@@ -18,13 +18,13 @@ class State(BaseModel, Base):
         @property
         def cities(self):
             """
-            Info
+            Getter that returns cities
             """
             new_list = []
             all_entries = models.storage.all()
             for key, value in all_entries.items():
                 split_key = entry.split('.')
-                if split_key[1] == State.id:
+                if split_key[1] == self.id:
                     new_list.append(value)
 
             return new_list
