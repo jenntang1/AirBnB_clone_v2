@@ -14,6 +14,7 @@ from models.city import City
 from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
+from sqlalchemy.pool import SingletonThreadPool, QueuePool
 
 
 class DBStorage():
@@ -37,7 +38,7 @@ class DBStorage():
         database = os.getenv('HBNB_MYSQL_DB')
 
         self.__engine = create_engine("mysql+mysqldb://{}:{}@{}/{}".format(
-            user, password, host, database), pool_pre_ping=True)
+            user, password, host, database), pool_pre_ping=True, poolclass=QueuePool)
         if os.getenv('HBNB_ENV') == 'test':
             Base.metadata.drop_all(self.__engine)
 
@@ -89,6 +90,6 @@ class DBStorage():
 
     def close(self):
         """
-        Public method that calls the remove method
+        Public method that removes the current session
         """
-        self.__session.remove()
+        self.__session.close()
