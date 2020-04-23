@@ -8,20 +8,14 @@ from flask import Flask, render_template
 app = Flask(__name__)
 
 
-def get_data(self):
-    """ Method fetches data from storage
-    """
-    data = storage.all(State)
-
-
 @app.route("/states_list", strict_slashes=False)
-def html_states(self):
+def html_states():
     """ Method returns a HTML page after
     web app starts listening on 0.0.0.0:5000
     Return:
         an HTML page that States and their ids
     """
-    data = get_data()
+    data = storage.all(State)
     return render_template("7-states_list.html", data=data)
 
 
