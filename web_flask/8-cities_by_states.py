@@ -2,11 +2,22 @@
 """ Starts a Flask Web Application """
 
 
-from models.city import City
 from models.state import State
 from models import storage
 from flask import Flask, render_template
 app = Flask(__name__)
+
+
+@app.route("/states_list", strict_slashes=False)
+def html_states():
+    """ Method returns a HTML page after
+    web app starts listening on 0.0.0.0:5000
+    Return:
+        an HTML page that displays the states data
+    """
+    data = storage.all(State)
+    states = data.values()
+    return render_template("7-states_list.html", states=states)
 
 
 @app.route("/cities_by_states", strict_slashes=False)
@@ -14,10 +25,11 @@ def html_cities():
     """ Method returns a HTML page after
     web app starts listening on 0.0.0.0:5000
     Return:
-        an HTML page that displays the cities
+        an HTML page that displays the cities data
     """
-    data = storage.all(City)
-    cities = data.values()
+    data = storage.all(State)
+    for states in data.values():
+        cities = state.cities
     return render_template("8-cities_by_states.html", cities=cities)
 
 
