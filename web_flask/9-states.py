@@ -10,14 +10,16 @@ app = Flask(__name__)
 
 @app.route("/states", strict_slashes=False)
 @app.route("/states/<id>", strict_slashes=False)
-def html_states_state():
+def html_states_state(id=None):
     """ Method returns a HTML page after
     web app starts listening on 0.0.0.0:5000
+    Arg:
+        id: default is None
     Return:
         an HTML page that displays city data by
         state
     """
-    data = storage.all(State)
+    states = storage.all(State)
     if id:
         id = "State." + id
     return render_template("9-states.html", states=states, id=id)
