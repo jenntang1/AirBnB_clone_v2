@@ -15,7 +15,7 @@ def html_states():
     Return:
         an HTML page that States and their ids
     """
-    data = storage.all(State)
+    data = storage.all(State).values()
     return render_template("7-states_list.html", data=data)
 
 
