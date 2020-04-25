@@ -23,8 +23,6 @@ def html_cities():
 @app.teardown_appcontext
 def close_db(self):
     """ Method closes the database
-    Arg:
-        storage data
     """
     storage.close()
 
