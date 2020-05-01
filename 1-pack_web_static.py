@@ -14,7 +14,7 @@ def do_pack():
         upon success, returns archive path
         upon fail, returns None
     """
-    sudo("mkdir -p versions")
+    local("mkdir -p versions")
 
     timestamp = time.strftime("%Y%m%d%H%M%S")
 
